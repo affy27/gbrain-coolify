@@ -1,0 +1,58 @@
+services:
+  gbrain-server:
+    image: gbrain-coolify:v0.60.555.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command:
+      - serve
+      - --http
+      - --bind
+      - 0.0.0.0
+      - --port
+      - "3131"
+      - --public-url
+      - https://brain.finext.cloud
+    environment:
+      HOME: /home/bun
+      DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in Coolify}"
+      GBRAIN_ADMIN_BOOTSTRAP_TOKEN: "${GBRAIN_ADMIN_BOOTSTRAP_TOKEN:?Set GBRAIN_ADMIN_BOOTSTRAP_TOKEN in Coolify}"
+      GBRAIN_POOL_SIZE: "6"
+    volumes:
+      - gbrain-home:/home/bun/.gbrain
+    expose:
+      - "3131"
+    networks:
+      - coolify
+      - gbrain-private
+
+  gbrain-worker:
+    image: gbrain-coolify:v0.60.555.0
+    restart: unless-stopped
+    command:
+      - jobs
+      - supervisor
+    environment:
+      HOME: /home/bun
+      DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in Coolify}"
+      GBRAIN_POOL_SIZE: "6"
+    volumes:
+      - gbrain-home:/home/bun/.gbrain
+    networks:
+      - coolify
+      - gbrain-private
+    depends_on:
+      - gbrain-server
+
+volumes:
+  gbrain-home:
+
+networks:
+  coolify:
+    external: true
+    name: coolify
+
+  gbrain-private:
+    external: true
+    name: gbrain-private
