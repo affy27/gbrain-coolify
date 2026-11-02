@@ -40,10 +40,7 @@ services:
     volumes:
       - gbrain-home:/home/bun/.gbrain
     networks:
-      - coolify
       - gbrain-private
-    depends_on:
-      - gbrain-server
 
 volumes:
   gbrain-home:
