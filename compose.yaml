@@ -16,6 +16,7 @@ services:
       - https://brain.finext.cloud
     environment:
       HOME: /home/bun
+      GBRAIN_HOME: /home/bun/.gbrain
       DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in Coolify}"
       GBRAIN_ADMIN_BOOTSTRAP_TOKEN: "${GBRAIN_ADMIN_BOOTSTRAP_TOKEN:?Set GBRAIN_ADMIN_BOOTSTRAP_TOKEN in Coolify}"
       GBRAIN_POOL_SIZE: "6"
@@ -35,6 +36,7 @@ services:
       - supervisor
     environment:
       HOME: /home/bun
+      GBRAIN_HOME: /home/bun/.gbrain
       DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in Coolify}"
       GBRAIN_POOL_SIZE: "6"
     volumes:

@@ -22,6 +22,7 @@ COPY entrypoint.sh /usr/local/bin/gbrain-entrypoint
 RUN chmod 755 /usr/local/bin/gbrain-entrypoint
 
 ENV HOME=/home/bun
+ENV GBRAIN_HOME=/home/bun/.gbrain
 
 EXPOSE 3131
 

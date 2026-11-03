@@ -3,19 +3,25 @@ set -eu
 
 : "${DATABASE_URL:?DATABASE_URL must be configured}"
 
-mkdir -p "$HOME/.gbrain"
-chown bun:bun "$HOME/.gbrain"
+HOME="${HOME:-/home/bun}"
+GBRAIN_HOME="${GBRAIN_HOME:-$HOME/.gbrain}"
 
-gosu bun flock -x "$HOME/.gbrain/init.lock" sh -c '
-    if [ ! -s "$HOME/.gbrain/config.json" ]; then
-        echo "First startup: initializing GBrain PostgreSQL database..."
+export HOME GBRAIN_HOME
+
+mkdir -p "$GBRAIN_HOME"
+chown bun:bun "$GBRAIN_HOME"
+
+# Initialize the shared database once, even if server and worker start together.
+gosu bun flock -x "$GBRAIN_HOME/init.lock" sh -c '
+    if [ ! -s "$GBRAIN_HOME/config.json" ]; then
+        echo "Initializing GBrain PostgreSQL database..."
         bun run /opt/gbrain/src/cli.ts init \
             --url "$DATABASE_URL" \
             --non-interactive \
             --no-embedding \
             --db-only
     else
-        echo "Existing GBrain configuration found; skipping initialization."
+        echo "GBrain configuration already exists; skipping initialization."
     fi
 '
 
