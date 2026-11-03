@@ -1,3 +1,4 @@
+
 services:
   gbrain-server:
     image: gbrain-coolify:v0.60.555.0
@@ -19,9 +20,11 @@ services:
       GBRAIN_HOME: /home/bun/.gbrain
       DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL in Coolify}"
       GBRAIN_ADMIN_BOOTSTRAP_TOKEN: "${GBRAIN_ADMIN_BOOTSTRAP_TOKEN:?Set GBRAIN_ADMIN_BOOTSTRAP_TOKEN in Coolify}"
+      GBRAIN_HTTP_CORS_ORIGIN: "https://brain.finext.cloud"
       GBRAIN_POOL_SIZE: "6"
     volumes:
       - gbrain-home:/home/bun/.gbrain
+      - gbrain-content:/home/bun/gbrain-content
     expose:
       - "3131"
     networks:
@@ -41,11 +44,13 @@ services:
       GBRAIN_POOL_SIZE: "6"
     volumes:
       - gbrain-home:/home/bun/.gbrain
+      - gbrain-content:/home/bun/gbrain-content
     networks:
       - gbrain-private
 
 volumes:
   gbrain-home:
+  gbrain-content:
 
 networks:
   coolify:
