@@ -1,0 +1,5 @@
+# Shell scripts inside the image must keep LF endings. Without this, a Windows
+# checkout (core.autocrlf=true) would rewrite entrypoint.sh to CRLF and the
+# container would fail with "no such file or directory" from /bin/sh.
+* text=auto eol=lf
+*.sh text eol=lf

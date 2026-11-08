@@ -9,7 +9,10 @@ RUN apt-get update \
 
 WORKDIR /opt/gbrain
 
-RUN git clone --depth 1 --branch v0.60.555.0 \
+ARG GBRAIN_VERSION=v0.60.614.0
+
+RUN test -n "$GBRAIN_VERSION" \
+    && git clone --depth 1 --branch "$GBRAIN_VERSION" \
        https://github.com/garrytan/gbrain.git . \
     && bun install --frozen-lockfile \
     && cd admin \

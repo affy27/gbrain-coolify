@@ -1,7 +1,7 @@
 
 services:
   gbrain-server:
-    image: gbrain-coolify:v0.60.555.0
+    image: gbrain-coolify:v0.60.614.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
       - gbrain-private
 
   gbrain-worker:
-    image: gbrain-coolify:v0.60.555.0
+    image: gbrain-coolify:v0.60.614.0
     restart: unless-stopped
     command:
       - jobs
